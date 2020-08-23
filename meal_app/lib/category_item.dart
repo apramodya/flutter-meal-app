@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'category_meals_screen.dart';
+import './category_meals_screen.dart';
+import 'models/category.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String title;
-  final Color color;
+  final Category category;
 
-  CategoryItem(this.title, this.color);
+  CategoryItem(this.category);
 
-  void selectcategory(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return CategoryMealsScreen();
-        },
-      ),
+  void selectCategory(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      CategoryMealsScreen.routeName,
+      arguments: {
+        'category': category,
+      },
     );
   }
 
@@ -22,20 +21,20 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWell(
-      onTap: () => selectcategory(context),
+      onTap: () => selectCategory(context),
       splashColor: theme.primaryColor,
       borderRadius: BorderRadius.circular(15),
       child: Container(
         padding: const EdgeInsets.all(15),
         child: Text(
-          title,
+          category.title,
           style: theme.textTheme.headline6,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              color.withOpacity(0.7),
-              color,
+              category.color.withOpacity(0.7),
+              category.color,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
